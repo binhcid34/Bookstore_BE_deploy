@@ -105,5 +105,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 app.MapControllers();
+app.UseDeveloperExceptionPage();
 
 app.Run();
