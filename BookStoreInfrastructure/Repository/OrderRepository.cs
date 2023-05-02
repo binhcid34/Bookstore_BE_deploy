@@ -19,6 +19,10 @@ namespace BookStoreInfrastructure.Repository
             var sqlConnector = new MySqlConnection(connectString);
             try
             {
+                foreach (var item in orderItems)
+                {
+                    item.ImageProduct = null;
+                }
                 var orderDetail = JsonSerializer.Serialize(orderItems).ToString();
                 //byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(orderItems);
                 //var orderDetail = System.Text.Encoding.UTF8.GetString(jsonUtf8Bytes);
