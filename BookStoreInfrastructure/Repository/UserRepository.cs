@@ -25,8 +25,8 @@ namespace BookStoreInfrastructure.Repository
         public void InsertUser(DynamicParameters parameters)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
-            var sqlQuery = "Proc_Insert_User";
-            sqlConnector.Query<Employee>(sqlQuery, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
+            var sqlQuery = "Proc_Insert_User_v2";
+            sqlConnector.Query<User>(sqlQuery, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public User getInfo(string email)

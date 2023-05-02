@@ -200,5 +200,21 @@ namespace BookStoreAPI.Controllers
             }
             return response;
         }
+
+        [HttpPost("register")]
+        public ResponseModel register([FromBody] User user)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                _IUserService.InsertUser(user, response);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
     }
 }
