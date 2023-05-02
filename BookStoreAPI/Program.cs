@@ -93,6 +93,12 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         });
 }
+app.UseSwagger();
+app.UseSwaggerUI(
+    options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    });
 app.UseCors("corsapp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
