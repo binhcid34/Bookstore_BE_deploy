@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Text;
 using BookStoreAPI.Filter;
+using BookStoreInfrastructure.Repository;
 
 namespace BookStoreAPI.Controllers
 {
@@ -20,11 +21,13 @@ namespace BookStoreAPI.Controllers
         IUserRepository _IUserRepository;
         IUserService _IUserService;
         IOrderRepository _IOrderRepository;
-        public AdminController(IUserRepository IUserRepository, IUserService userService, IOrderRepository iOrderRepository)
+        IProductRepository _IProductRepository;
+        public AdminController(IUserRepository IUserRepository, IUserService userService, IOrderRepository iOrderRepository, IProductRepository iProductRepository)
         {
             _IUserRepository = IUserRepository;
             _IUserService = userService;
             _IOrderRepository = iOrderRepository;
+            _IProductRepository = iProductRepository;
         }
 
         /// <summary>
@@ -280,6 +283,29 @@ namespace BookStoreAPI.Controllers
             catch (Exception ex)
             {
                 response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+
+
+        [HttpDelete("deleteProduct/{productID}")]
+        public ResponseModel delete(string productID)
+        {
+            ResponseModel response = new ResponseModel();
+
+            try
+            {
+                _IProductRepository.DeleteProduct(productID);
+                response.Status = 200;
+                response.Success = true;
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+                response.Status = 400;
+                response.Success = false;
             }
 
             return response;

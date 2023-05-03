@@ -149,26 +149,6 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
-        [HttpDelete("delete/{productID}")]
-        public ResponseModel delete(string productID)
-        {
-            ResponseModel response = new ResponseModel();
-
-            try
-            {
-                _IProductRepository.DeleteProduct(productID);
-                response.Status = 200;
-                response.Success = true;
-            }
-            catch (Exception e)
-            {
-                response.Message = e.Message;
-                response.Status = 400;
-                response.Success = false;
-            }
-
-            return response;
-        }
 
     }
 }
