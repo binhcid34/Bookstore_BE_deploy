@@ -12,6 +12,9 @@ namespace BookStoreInfrastructure.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
+        // localhost:
+        //public string connectString = "Server=localhost; User ID=root; Password=123456; Database=heroku_8237f81fa52e4e9";
+
         public string connectString = "Server=us-cdbr-east-06.cleardb.net;User=bc388b14261edc;Password=3435ccbb;Database=heroku_8237f81fa52e4e9";
         public dynamic Count()
         {
