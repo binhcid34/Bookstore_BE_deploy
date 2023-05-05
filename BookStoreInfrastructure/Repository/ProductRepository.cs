@@ -125,16 +125,21 @@ namespace BookStoreInfrastructure.Repository
             var queryProc = "Proc_Filter_ProductAll";
             var res = sqlConnector.Query<Product>(queryProc, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
 
+
             int totalRecord = parameters.Get<int>("@v_TotalRecord");
             int recordStart = parameters.Get<int>("@v_RecordStart");
             int recordEnd = parameters.Get<int>("@v_RecordEnd");
+
+            var queryDiscount = "SELECT * FROM product p WHERE p.DiscountSale > 0";
+            var resDiscount = sqlConnector.Query<Product>(queryDiscount);
 
             return new
             {
                 TotalRecord = totalRecord,
                 RecordStart = recordStart,
                 RecordEnd = recordEnd,
-                Data = res
+                Data = res,
+                ListDiscountProduct = resDiscount
             };
         }
 
