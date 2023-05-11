@@ -136,6 +136,15 @@ namespace BookStoreAPI.Controllers
             var response = new ResponseModel();
             try
             {
+                // check xem có email đó không
+                var userInfo = _IUserRepository.getInfo(email);
+                if (userInfo == null)
+                {
+                    response.Success = false;
+                    response.Message = $"{email} không tồn tại";
+                    response.Status = 302;
+                    return response;
+                };
                 bool isValid = _IUserService.RecoverPassword(email);
                 if (isValid)
                 {
@@ -171,6 +180,11 @@ namespace BookStoreAPI.Controllers
                 if (SSID != null)
                 {
                     User newUser = _IUserRepository.getInfoFromSSID(SSID);
+
+                    if (newUser != null)
+                    {
+                        response.Data = newUser;
+                    }
                      
                     if (newUser != null && newUser.IsAdmin == 1) {
 

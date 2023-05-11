@@ -8,7 +8,7 @@ namespace BookStoreCore.Email
     {
         public bool SendMailAsync(string SendMailTo, string SendMailSubject, string SendMailBody)
         {
-            String SendMailFrom = "binhcid34@gmail.com";
+            String SendMailFrom = "duckienkien11@gmail.com";
             try
             {
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
@@ -24,7 +24,7 @@ namespace BookStoreCore.Email
                 SmtpServer.Timeout = 5000;
                 SmtpServer.EnableSsl = true;
                 SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new NetworkCredential(SendMailFrom, "dnlcxlvzkzmkmmft");
+                SmtpServer.Credentials = new NetworkCredential(SendMailFrom, "guvyfgdhmjnmggkq");
                 SmtpServer.Send(email);
                 //Console.WriteLine("Email Successfully Sent");
                 //Console.ReadKey();

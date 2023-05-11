@@ -38,6 +38,7 @@ namespace BookStoreAPI.Filter
                         context.Result = new JsonResult("Permission denined!");
                     }
                     context.HttpContext.Session.SetString("SSID", SSID);
+                    context.HttpContext.Session.SetString("UserName", currentUser.Fullname);
                 }
             }
             else

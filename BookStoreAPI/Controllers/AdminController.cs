@@ -328,6 +328,47 @@ namespace BookStoreAPI.Controllers
             return sb.ToString();
         }
 
+        [HttpPost("createNewCategory/{nameCategory}")]
 
+        public ResponseModel createNewCategory(string nameCategory)
+        {
+            var response = new ResponseModel();
+            try
+            {
+                var UserName = HttpContext.Session.GetString("UserName").ToString();
+
+                _IProductRepository.createNewCategory(nameCategory, UserName);
+
+                response.Status = 200;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpDelete("deleteCategory/{idCategory}")]
+
+        public ResponseModel createNewCategory(int idCategory)
+        {
+            var response = new ResponseModel();
+            try
+            {
+
+                _IProductRepository.deleteCategory(idCategory);
+
+                response.Status = 200;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
     }
 }

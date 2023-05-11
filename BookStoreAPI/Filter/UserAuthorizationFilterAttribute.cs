@@ -1,4 +1,5 @@
 ﻿using BookStoreCore.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Drawing.Printing;
@@ -42,6 +43,8 @@ namespace BookStoreAPI.Filter
                         context.Result = new JsonResult("Permission denined!");
                     }
                     context.HttpContext.Session.SetString("SSID", SSID);
+                    context.HttpContext.Session.SetString("UserName", currentUser.Fullname);
+
                 }
             } else
             {
