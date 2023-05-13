@@ -14,7 +14,8 @@ namespace BookStoreInfrastructure.Repository
 {
     public class OrderRepository : BaseRepository<SessionOrder>, IOrderRepository
     {
-        public SessionOrder AddItems(List<Product> orderItems, string userId)
+        Nguyễn Văn Dũng
+public SessionOrder AddItems(List<Product> orderItems, string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
             try
@@ -26,9 +27,10 @@ namespace BookStoreInfrastructure.Repository
                 var orderDetail = JsonSerializer.Serialize(orderItems).ToString();
                 //byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(orderItems);
                 //var orderDetail = System.Text.Encoding.UTF8.GetString(jsonUtf8Bytes);
-                var order = GetItems(userId);
+                SessionOrder order = new();
                 if (CheckOrderExist(userId))
                 {
+                    order = GetItems(userId);
                     var queryProc = "Proc_Update_SessionOrder";
                     var parameters = new DynamicParameters();
                     var afterDiscount = CalculationItem(orderItems) - CalculationItem(orderItems) * order.PromotionPercent / 100;
@@ -53,6 +55,7 @@ namespace BookStoreInfrastructure.Repository
                     parameters.Add("v_PaymentFee", 30000);
 
                     sqlConnector.Query(queryProc, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    order = GetItems(userId);
                 }
                 return order;
             }
@@ -61,7 +64,7 @@ namespace BookStoreInfrastructure.Repository
 
                 throw;
             }
-            
+
         }
 
         public SessionOrder GetItems(string userId)

@@ -55,7 +55,7 @@ namespace BookStoreInfrastructure.Repository
         public void UpdateUser(DynamicParameters parameters)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
-            var sqlQuery = "Proc_Update_User";
+            var sqlQuery = "Proc_Update_User_v2";
             sqlConnector.Query<Employee>(sqlQuery, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
         }
 

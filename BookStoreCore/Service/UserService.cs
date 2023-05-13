@@ -96,7 +96,7 @@ namespace BookStoreInfrastructure.Service
                     parameters.Add("v_IdUser", user.IdUser);
                     parameters.Add("v_FullName", user.Fullname);
                     parameters.Add("v_Email", user.Email);
-                    parameters.Add("v_Password", "12345678@Abc");
+                    //parameters.Add("v_Password", user.NewPassword);
                     parameters.Add("v_IsAdmin", user.IsAdmin);
                     parameters.Add("v_Address1", user.Address1);
                     parameters.Add("v_Address2", user.Address2);
