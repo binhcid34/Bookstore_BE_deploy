@@ -14,8 +14,7 @@ namespace BookStoreInfrastructure.Repository
 {
     public class OrderRepository : BaseRepository<SessionOrder>, IOrderRepository
     {
-        Nguyễn Văn Dũng
-public SessionOrder AddItems(List<Product> orderItems, string userId)
+        public SessionOrder AddItems(List<Product> orderItems, string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
             try
