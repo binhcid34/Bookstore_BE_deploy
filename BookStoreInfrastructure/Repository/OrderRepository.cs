@@ -109,6 +109,23 @@ namespace BookStoreInfrastructure.Repository
         public bool Checkout(SessionOrder sessionOrder, string userID)
         {
             var sqlConnector = new MySqlConnection(connectString);
+            var sqlQueryOrder = $"Select * from SessionOrder where IdUser = '{userID}' and PaymentStatus is null";
+            var tempOrder = sqlConnector.Query(sqlQueryOrder).FirstOrDefault();
+            var tempOrderDetail = JsonSerializer.Deserialize<List<Product>>(tempOrder.OrderDetail);
+
+                foreach (var item in tempOrderDetail)
+                {
+                    if (item != null)
+                    {
+                        // 3. Tính lại quantity
+                        var quantityProduct = item.Quantity;
+                        if (quantityProduct != null)
+                        {
+                            updateQuantity(item.IdProduct, quantityProduct, 1);
+                        }
+                    }
+                };
+
             int option = sessionOrder.PaymentType == 1 ? 1 : 3;
             var sqlQuery = "Update SessionOrder " +
                                    $"Set PaymentStatus = '{option}', PaymentType = '{sessionOrder.PaymentType}'" +
@@ -117,18 +134,8 @@ namespace BookStoreInfrastructure.Repository
                                    $"Where IdUser = '{userID}' And PaymentStatus is null";
             sqlConnector.Query(sqlQuery);
             var listProduct = JsonSerializer.Deserialize<List<Product>>(sessionOrder.OrderDetail);
-            foreach (var item in listProduct)
-            {
-                if (item != null)
-                {
-                    // 3. Tính lại quantity
-                    var quantityProduct = item.Quantity;
-                    if (quantityProduct != null)
-                    {
-                        updateQuantity(item.IdProduct, quantityProduct, 1);
-                    }
-                }
-            }
+
+           
             return true;
         }
 
