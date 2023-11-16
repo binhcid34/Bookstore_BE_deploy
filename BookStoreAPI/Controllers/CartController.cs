@@ -14,11 +14,19 @@ namespace BookStoreAPI.Controllers
 
     public class CartController : ControllerBase
     {
+        // property
         private readonly IOrderRepository _iOrderRepository;
+
+        //constructor
         public CartController(IOrderRepository iOrderRepository)
         {
             _iOrderRepository = iOrderRepository;
-        }   
+        }
+        
+        /// <summary>
+        /// Lấy giỏ hàng theo người dùng
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetItems()
         {
@@ -29,6 +37,12 @@ namespace BookStoreAPI.Controllers
             return Ok(res);
 
         }
+
+        /// <summary>
+        /// Thêm vào giỏ hàng
+        /// </summary>
+        /// <param name="orderItems"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult AddItem([FromBody] List<Product> orderItems)
         {
@@ -39,6 +53,11 @@ namespace BookStoreAPI.Controllers
             return Ok(res);
         }
 
+        /// <summary>
+        /// Thanh toán
+        /// </summary>
+        /// <param name="sessionOrder"></param>
+        /// <returns></returns>
         [HttpPost("checkout")]
         public IActionResult Checkout([FromBody] SessionOrder sessionOrder)
         {
@@ -52,6 +71,11 @@ namespace BookStoreAPI.Controllers
             return Ok(res);
         }
 
+
+        /// <summary>
+        /// Lấy lịch sử mua hàng theo người dùng
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("history")]
         public IActionResult GetHistory()
         {
@@ -62,6 +86,11 @@ namespace BookStoreAPI.Controllers
             return Ok(res);
         }
 
+        /// <summary>
+        /// Áp mã giảm giá vào giỏ hàng
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpPost("applypromotion")]
         public IActionResult ApplyPromotion(string code)
         {
@@ -72,7 +101,7 @@ namespace BookStoreAPI.Controllers
             return Ok(res);
         }
         /// <summary>
-        /// cập nhật đơn hàng: 
+        /// cập nhật đơn hàng với TH xác nhân thanh toán và hủy đơn hàng
         /// </summary>
         /// <param name="idOrder"></param>
         /// <param name="type">1 là mua; 2 là hủy đơn hàng</param>
@@ -84,12 +113,12 @@ namespace BookStoreAPI.Controllers
 
             // 1. Lấy orderData từ idOrder;
             SessionOrder sessionOrder = _iOrderRepository.GetOrderByID(idOrder);
-            // 2. for từng orderData
             if (sessionOrder == null && sessionOrder.OrderDetail == null)
             {
                 res.Success = false;
                 return Ok(res);
-            } 
+            }
+            // 2. for từng orderData để cập nhật đơn hàng
             var orderData = JsonSerializer.Deserialize <List<Product>>(sessionOrder.OrderDetail);
             foreach (var item in orderData)
             {

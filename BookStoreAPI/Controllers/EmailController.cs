@@ -18,7 +18,13 @@ namespace BookStoreAPI.Controllers
         {
             _mail = mail;
         }
-
+        
+        /// <summary>
+        /// Gửi email với nội dung
+        /// </summary>
+        /// <param name="SendMailTo"></param>
+        /// <param name="SendMailBody"></param>
+        /// <returns></returns>
         [HttpPost("sendmail")]
         public ResponseModel SendMailAsync(String SendMailTo, String SendMailBody)
         {

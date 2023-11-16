@@ -28,24 +28,31 @@ namespace BookStoreAPI.Controllers
             _IUserRepository = IUserRepository;
             _IUserService = userService;
         }
-
+        /// <summary>
+        /// Đăng nhập và tạo ra token để authencation và authozation
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
         [HttpGet]
         public ResponseModel Get(string email, string pass)
         {
             ResponseModel response = new ResponseModel();
-
+            // Kiểm tra xem email và mật khẩu có trống
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(pass))
             {
+                // Kiêm tra xem có tồn tại email và pass trong dữ liệu
                 var user = GetUser(email, pass);
                 if (user != null)
                 {
+                    //create claims details based on the user information
                     var claims = new[] {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("SSID", user.IdUser.ToString()),
                     };
-                    //create claims details based on the user information
+                    // Sinh ra token 
                   
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
@@ -75,7 +82,7 @@ namespace BookStoreAPI.Controllers
         }
         
         /// <summary>
-        /// Chỉnh sửa thông tin
+        /// Chỉnh sửa thông tin người dùng
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -119,7 +126,12 @@ namespace BookStoreAPI.Controllers
 
             return response;
         }
-
+        /// <summary>
+        /// Check xem có người dùng nào có email và password này không trả về người dùng nếu có tồn tại
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private User GetUser(string email, string password)
         {
             return   _IUserRepository.validateUser(email, password);
@@ -136,7 +148,7 @@ namespace BookStoreAPI.Controllers
             var response = new ResponseModel();
             try
             {
-                // check xem có email đó không
+                // check xem có email có tồn tại không
                 var userInfo = _IUserRepository.getInfo(email);
                 if (userInfo == null)
                 {
@@ -145,6 +157,7 @@ namespace BookStoreAPI.Controllers
                     response.Status = 302;
                     return response;
                 };
+                // Sinh lại password mới và gửi email
                 bool isValid = _IUserService.RecoverPassword(email);
                 if (isValid)
                 {
@@ -168,6 +181,10 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Kiểm tra quyền của người dùng xem có được truy cập vào trang admin không?
+        /// </summary>
+        /// <returns></returns>
         [TypeFilter(typeof(UserAuthorizationFilterAttribute))]
         [HttpGet("checkPermission")]
         public ResponseModel checkPermission()
@@ -176,9 +193,11 @@ namespace BookStoreAPI.Controllers
 
             try
             {
+                // lấy SSID (key để xác thực) 
                 var SSID = HttpContext.Session.GetString("SSID").ToString();
                 if (SSID != null)
                 {
+                    // Lấy người dùng từ ssid
                     User newUser = _IUserRepository.getInfoFromSSID(SSID);
 
                     if (newUser != null)
@@ -215,6 +234,11 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Đăng ký người dùng
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public ResponseModel register([FromBody] User user)
         {

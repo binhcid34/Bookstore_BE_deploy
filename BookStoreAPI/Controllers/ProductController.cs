@@ -20,6 +20,10 @@ namespace BookStoreAPI.Controllers
             _IProductRepository = IProductRepository;
         }
 
+        /// <summary>
+        /// Lấy tất cả sản phẩm
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ResponseModel getAllProduct()
         {
@@ -30,8 +34,11 @@ namespace BookStoreAPI.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Lấy số lượng tất cả sản phẩm
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("count")]
-
         public ResponseModel getCountProduct()
         {
             var res = new ResponseModel();
@@ -41,6 +48,11 @@ namespace BookStoreAPI.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Lấy chi tiết của sản phẩm theo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("detail")]
         public IActionResult GetProductDetailById(string id)
         {
@@ -87,6 +99,12 @@ namespace BookStoreAPI.Controllers
 
             return response;
         }
+
+        /// <summary>
+        /// Lấy sản phẩm theo danh mục
+        /// </summary>
+        /// <param name="IdCategory"></param>
+        /// <returns></returns>
         [HttpGet("getByCategory/{IdCategory}")]
         public ResponseModel getByIdCategory(int IdCategory)
         {
@@ -107,6 +125,12 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+
+        /// <summary>
+        ///  Thêm sản phẩm
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost("insert")]
         public ResponseModel insertNewProduct([FromBody] Product product)
         {
@@ -128,6 +152,11 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        ///  Cập nhật thông tin sản phẩm
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost("update")]
         public ResponseModel updateProduct([FromBody] Product product)
         {
@@ -149,6 +178,10 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        ///  Lấy tất cả danh mục sản phẩm
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allCategory")]
         public ResponseModel allCategory()
         {

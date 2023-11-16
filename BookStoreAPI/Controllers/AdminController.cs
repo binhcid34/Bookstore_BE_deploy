@@ -14,14 +14,24 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("ShouldContainRole")]
     [TypeFilter(typeof(AdminAuthorizationFilterAttribute))]
     public class AdminController : ControllerBase
     {
+        /// <summary>
+        /// property
+        /// </summary>
         IUserRepository _IUserRepository;
         IUserService _IUserService;
         IOrderRepository _IOrderRepository;
         IProductRepository _IProductRepository;
+
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="IUserRepository"></param>
+        /// <param name="userService"></param>
+        /// <param name="iOrderRepository"></param>
+        /// <param name="iProductRepository"></param>
         public AdminController(IUserRepository IUserRepository, IUserService userService, IOrderRepository iOrderRepository, IProductRepository iProductRepository)
         {
             _IUserRepository = IUserRepository;
@@ -165,6 +175,12 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Cập nhật đơn hàng
+        /// </summary>
+        /// <param name="idorder"></param>
+        /// <param name="paymentSatus"></param>
+        /// <returns></returns>
         [HttpPost("updateOrder")]
         public ResponseModel updateOrder(string idorder, int paymentSatus)
         {
@@ -183,7 +199,12 @@ namespace BookStoreAPI.Controllers
 
             return response;
         }
-
+        
+        /// <summary>
+        /// tìm kiếm đơn hàng
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet("filterOrder")]
         public ResponseModel filterOrder(string filter)
         {
@@ -203,6 +224,10 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Lấy thông tin trang dashboard
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("dashboard")]
         public ResponseDashboardModel dashboard()
         {
@@ -226,6 +251,10 @@ namespace BookStoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy tất cả mgg
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getALlPromotion")]
 
         public ResponseModel getALlPromotion()
@@ -246,8 +275,12 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Sinh thêm mgg mới 
+        /// </summary>
+        /// <param name="promotionPercent"></param>
+        /// <returns></returns>
         [HttpPost("createNewPromotion/{promotionPercent}")]
-
         public ResponseModel createNewPromotion(int promotionPercent)
         {
             var response = new ResponseModel();
@@ -267,9 +300,12 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Xóa mgg theo id
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [HttpDelete("deletePrmotion/{ID}")]
-
         public ResponseModel deletePrmotion(string ID)
         {
             var response = new ResponseModel();
@@ -289,7 +325,11 @@ namespace BookStoreAPI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Xóa sản phẩm theo id
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
         [HttpDelete("deleteProduct/{productID}")]
         public ResponseModel delete(string productID)
         {
@@ -311,7 +351,11 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Sinh ra password mới
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
         private string GetRandomPassword(int length)
         {
             const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -328,8 +372,12 @@ namespace BookStoreAPI.Controllers
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Tạo ra thêm danh mục
+        /// </summary>
+        /// <param name="nameCategory"></param>
+        /// <returns></returns>
         [HttpPost("createNewCategory/{nameCategory}")]
-
         public ResponseModel createNewCategory(string nameCategory)
         {
             var response = new ResponseModel();
@@ -350,8 +398,12 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Xóa danh mục theo id
+        /// </summary>
+        /// <param name="idCategory"></param>
+        /// <returns></returns>
         [HttpDelete("deleteCategory/{idCategory}")]
-
         public ResponseModel createNewCategory(int idCategory)
         {
             var response = new ResponseModel();

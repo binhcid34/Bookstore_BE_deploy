@@ -32,6 +32,8 @@ namespace BookStoreCore.Entity
         public int? PromotionPercent { get; set; }
 
         public List<byte[]>? ListImage { get; set; }
+        public string IdPromotion { get; set; }
+        public string PromotionName { get; set; }
 
     }
 }

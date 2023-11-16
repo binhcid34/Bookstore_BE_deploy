@@ -87,6 +87,8 @@ namespace BookStoreInfrastructure.Repository
                 //JObject json = JObject.Parse(res.OrderDetail);
                 sessionOrder.OrderDetail = JsonSerializer.Deserialize<List<Product>>(res.OrderDetail);
                 sessionOrder.ListImage = new List<byte[]>();
+                sessionOrder.IdPromotion = res.IdPromotion;
+                sessionOrder.PromotionName = res.PromotionName;
                 // Lấy ảnh
                 if (sessionOrder.OrderDetail != null)
                 {
@@ -206,7 +208,12 @@ namespace BookStoreInfrastructure.Repository
             string promotionInfo = $"Giảm giá {promotion.PromotionPercent}% đơn hàng";
             order.TotalPayment = order.TotalPayment - order.TotalPayment * promotion.PromotionPercent / 100;
             order.PromotionPercent = promotion.PromotionPercent;
-            sqlQuery = $"Update SessionOrder Set TotalPayment = {order.TotalPayment}, PromotionPercent = '{promotion.PromotionPercent}' Where IdUser = '{userId}' And PaymentStatus is null";
+            sqlQuery = $"Update SessionOrder " +
+                        $"Set TotalPayment = {order.TotalPayment}, " +
+                        $"PromotionPercent = '{promotion.PromotionPercent}'," +
+                        $" IdPromotion = '{promotion.ID}', " +
+                        $" PromotionName = '{promotion.PromotionName}'" +
+                        $" Where IdUser = '{userId}' And PaymentStatus is null";
             sqlConnector.Query(sqlQuery);
             sqlQuery = $"Update PromotionCode Set IsUsed = 1";
             sqlConnector.Query(sqlQuery);

@@ -20,7 +20,11 @@ namespace BookStoreInfrastructure.Service
             _IUserRepository = iUserRepository;
             _IMailService = mailService;
         }
-
+        /// <summary>
+        /// Thêm mới người dùng
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="response"></param>
         public void InsertUser(User user, ResponseModel response)
         {
             // validate
@@ -29,7 +33,7 @@ namespace BookStoreInfrastructure.Service
                 var _user = _IUserRepository.getInfo(user.Email);
                 if (_user == null)
                 {
-                    // insert
+                    // tạo ra param để thêm mới
                     var parameters = new DynamicParameters();
                     parameters.Add("v_FullName", user.Fullname);
                     parameters.Add("v_Email", user.Email);
@@ -63,6 +67,11 @@ namespace BookStoreInfrastructure.Service
 
         }
 
+        /// <summary>
+        /// Quên mật khẩu trả về true nếu thành công và false nếu thất bại
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool RecoverPassword(string email)
         {
             // check xem có email đó không
@@ -83,20 +92,24 @@ namespace BookStoreInfrastructure.Service
             return isValid;
         }
 
+        /// <summary>
+        /// Cập nhật dữ liệu người dùng
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="response"></param>
         public void UpdateUser(User user, ResponseModel response)
         {
-            // validate
+            // validate email
             if (!String.IsNullOrEmpty(user.Email))
             {
                 var _user = _IUserRepository.getInfo(user.Email);
                 if (_user != null)
                 {
-                    // update
+                    // tạo ra param để cập nhật dữ liệu
                     var parameters = new DynamicParameters();
                     parameters.Add("v_IdUser", user.IdUser);
                     parameters.Add("v_FullName", user.Fullname);
                     parameters.Add("v_Email", user.Email);
-                    //parameters.Add("v_Password", user.NewPassword);
                     parameters.Add("v_IsAdmin", user.IsAdmin);
                     parameters.Add("v_Address1", user.Address1);
                     parameters.Add("v_Address2", user.Address2);
@@ -123,6 +136,12 @@ namespace BookStoreInfrastructure.Service
             return;
 
         }
+
+        /// <summary>
+        /// sinh ra mật khẩu mới khi quên mật khẩu
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
         private string GetRandomPassword(int length)
         {
             const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
