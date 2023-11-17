@@ -11,7 +11,7 @@ namespace BookStoreCore.Entity
         public string? IdUser { get; set; }
         public string? Fullname { get; set; }    
         public string? Email { get; set; }
-        public string? NewPassword { get; set; }
+        public string? NewPassword { get; set; } = "12345678@Abc";
 
         public int? IsAdmin { get; set; }
         

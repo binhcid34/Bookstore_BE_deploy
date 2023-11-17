@@ -14,6 +14,12 @@ namespace BookStoreInfrastructure.Repository
 {
     public class OrderRepository : BaseRepository<SessionOrder>, IOrderRepository
     {
+        /// <summary>
+        /// Thêm vào giỏ hàng
+        /// </summary>
+        /// <param name="orderItems"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public SessionOrder AddItems(List<Product> orderItems, string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -27,6 +33,8 @@ namespace BookStoreInfrastructure.Repository
                 //byte[] jsonUtf8Bytes = JsonSerializer.SerializeToUtf8Bytes(orderItems);
                 //var orderDetail = System.Text.Encoding.UTF8.GetString(jsonUtf8Bytes);
                 SessionOrder order = new();
+                /// kiểm tra xem có tồn tại đã có giỏ hàng cho người dùng chưa nếu chưa thêm mới
+                /// nếu có cập nhật giỏ hàng
                 if (CheckOrderExist(userId))
                 {
                     order = GetItems(userId);
@@ -65,7 +73,11 @@ namespace BookStoreInfrastructure.Repository
             }
 
         }
-
+        /// <summary>
+        /// Lấy đơn hàng theo người dùng với Trạng thái thanh toán là chưa có
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public SessionOrder GetItems(string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -108,6 +120,12 @@ namespace BookStoreInfrastructure.Repository
             return null;
         }
 
+        /// <summary>
+        ///  Thanh toán đơn hàng
+        /// </summary>
+        /// <param name="sessionOrder"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public bool Checkout(SessionOrder sessionOrder, string userID)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -117,15 +135,23 @@ namespace BookStoreInfrastructure.Repository
 
                 foreach (var item in tempOrderDetail)
                 {
-                    if (item != null)
+                if (item != null)
+                {
+                    // 3. Tính lại quantity
+                    var quantityProduct = item.Quantity;
+                    // 3.1 Check xem có sản phẩm hết hàng không
+                    var queryDiscount = $"SELECT * FROM product p WHERE p.IdProduct = '{item.IdProduct}' and p.QuantitySock >= {quantityProduct}";
+                    var resDiscount = sqlConnector.Query<Product>(queryDiscount);
+
+                    if (quantityProduct != null && resDiscount != null && resDiscount.Count() > 0)
                     {
-                        // 3. Tính lại quantity
-                        var quantityProduct = item.Quantity;
-                        if (quantityProduct != null)
-                        {
-                            updateQuantity(item.IdProduct, quantityProduct, 1);
-                        }
+                        updateQuantity(item.IdProduct, quantityProduct, 1);
                     }
+                    else
+                    {
+                        return false;
+                    }
+                }
                 };
 
             int option = sessionOrder.PaymentType == 1 ? 1 : 3;
@@ -141,6 +167,11 @@ namespace BookStoreInfrastructure.Repository
             return true;
         }
 
+        /// <summary>
+        /// Kiểm tra xem có trùng đơn hàng không
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         private Boolean CheckOrderExist(string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -153,17 +184,26 @@ namespace BookStoreInfrastructure.Repository
             return false;
         }
 
+        /// <summary>
+        /// Tính toán tiền cho giỏ hàng
+        /// </summary>
+        /// <param name="orderItems"></param>
+        /// <returns></returns>
         private static float CalculationItem(List<Product> orderItems)
         {
             var totalAmount = 0;
             foreach (Product product in orderItems)
             {
+                /// số tiền sản phẩm = (giá - giá giảm giá) * số lượng
                 totalAmount += (product.PriceProduct - product.PriceProduct * product.DiscountSale / 100) * 
                     product.Quantity;
             }
             return totalAmount;
         }
-
+        /// <summary>
+        /// Lấy tất cả đơn hàng
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<SessionOrder> GetAllOrder()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -172,6 +212,11 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        /// TÌm kiếm đơn hàng theo tên hoặc mã đơn hàng
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
         public IEnumerable<SessionOrder> SearchByNameAndCode(string searchString)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -180,6 +225,11 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        /// Cập nhật đơn hàng
+        /// </summary>
+        /// <param name="paymentStatus"></param>
+        /// <param name="OrderID"></param>
         public void updateSessionOrder(int paymentStatus, string OrderID)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -187,6 +237,11 @@ namespace BookStoreInfrastructure.Repository
             sqlConnector.Query<SessionOrder>(sqlQuery);
         }
 
+        /// <summary>
+        /// Lấy tất cả đơn hàng theo người dùng
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<SessionOrder> GetAllOrdersByUserId(string userId)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -194,7 +249,12 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<SessionOrder>(sqlQuery).ToList();
             return res;
         }
-
+        /// <summary>
+        /// áp mgg
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         public SessionOrder ApplyPromotion(string userId, string code)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -220,6 +280,10 @@ namespace BookStoreInfrastructure.Repository
             return order;
         }
 
+        /// <summary>
+        /// Lấy báo cáo đơn hàng
+        /// </summary>
+        /// <returns></returns>
         public dynamic dashboardOrder()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -229,6 +293,10 @@ namespace BookStoreInfrastructure.Repository
 
         }
 
+        /// <summary>
+        /// dữ liệu biểu đồ đơn hàng
+        /// </summary>
+        /// <returns></returns>
         public dynamic chartOrder()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -237,6 +305,10 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        ///  dữ liệu biểu đồ người dùng
+        /// </summary>
+        /// <returns></returns>
         public dynamic chartUser()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -245,6 +317,10 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        ///  dữ liệu biểu đồ sản phẩm
+        /// </summary>
+        /// <returns></returns>
         public dynamic chartProduct()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -253,6 +329,12 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        ///  cập nhật số luuowngj đơn hàng
+        /// </summary>
+        /// <param name="idProduct"></param>
+        /// <param name="quantity"></param>
+        /// <param name="type"></param>
         public void updateQuantity(string idProduct, int quantity, int type)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -271,6 +353,11 @@ namespace BookStoreInfrastructure.Repository
             } 
         }
 
+        /// <summary>
+        /// Lấy đơn hàng theo id đơn hàng
+        /// </summary>
+        /// <param name="idOrder"></param>
+        /// <returns></returns>
         public SessionOrder GetOrderByID(string idOrder)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -279,6 +366,10 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        /// Lấy tất cả mgg
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Promotion> GetAllPromotion()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -287,6 +378,11 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        /// tạo mới mgg
+        /// </summary>
+        /// <param name="promotionName"></param>
+        /// <param name="promotionPercent"></param>
         public void createNewPromotion(string promotionName, int promotionPercent)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -294,6 +390,10 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<Promotion>(sqlQuery);
         }
 
+        /// <summary>
+        ///  xóa mgg
+        /// </summary>
+        /// <param name="ID"></param>
         public void deletePrmotion(string ID)
         {
             var sqlConnector = new MySqlConnection(connectString);

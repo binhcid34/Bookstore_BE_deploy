@@ -14,6 +14,10 @@ namespace BookStoreInfrastructure.Repository
     {
         public ProductRepository() : base() { }
 
+        /// <summary>
+        /// Thêm mới
+        /// </summary>
+        /// <param name="product"></param>
         public void InsertProduct(Product product)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -35,16 +39,15 @@ namespace BookStoreInfrastructure.Repository
             parameters.Add("v_PublishingCompany", product.PublishingCompany);
             parameters.Add("v_DiscountSale", product.DiscountSale);
 
-
-
-
-            // connect db
-
             // query
             sqlConnector.Query(queryProc, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
 
         }
 
+        /// <summary>
+        /// cập nhật
+        /// </summary>
+        /// <param name="product"></param>
         public void UpdateProduct(Product product)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -71,6 +74,11 @@ namespace BookStoreInfrastructure.Repository
         }
 
 
+        /// <summary>
+        /// tìm kiếm
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public IEnumerable<Product> SearchProduct(string search)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -81,7 +89,14 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<Product>(querySQL);
             return res;
         }
-
+        /// <summary>
+        /// phân trang theo danh mục
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="IdCategory"></param>
+        /// <returns></returns>
         public object filterByCategory(string filter, int pageNumber, int pageSize, int IdCategory)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -110,7 +125,13 @@ namespace BookStoreInfrastructure.Repository
             };
         }
 
-
+        /// <summary>
+        /// phân trang
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public object filter(string filter, int pageNumber, int pageSize)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -130,7 +151,7 @@ namespace BookStoreInfrastructure.Repository
             int recordStart = parameters.Get<int>("@v_RecordStart");
             int recordEnd = parameters.Get<int>("@v_RecordEnd");
 
-            var queryDiscount = "SELECT * FROM product p WHERE p.DiscountSale > 0";
+            var queryDiscount = "SELECT * FROM product p WHERE p.DiscountSale > 0 and p.QuantitySock > 0";
             var resDiscount = sqlConnector.Query<Product>(queryDiscount);
 
             return new
@@ -142,7 +163,11 @@ namespace BookStoreInfrastructure.Repository
                 ListDiscountProduct = resDiscount
             };
         }
-
+        /// <summary>
+        /// Lấy sản phẩm theo danh mục
+        /// </summary>
+        /// <param name="IdCategory"></param>
+        /// <returns></returns>
         public IEnumerable<Product> getByIdCategory(int IdCategory)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -152,7 +177,10 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<Product>(querySQL).ToList();
             return res;
         }
-
+        /// <summary>
+        /// xóa sp
+        /// </summary>
+        /// <param name="IdProduct"></param>
         public void DeleteProduct(string IdProduct)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -162,6 +190,10 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<Product>(querySQL);
         }
 
+        /// <summary>
+        /// lấy tổng danh mục
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Category> getAllCategory()
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -171,7 +203,11 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<Category>(querySQL).ToList();
             return res;
         }
-
+        /// <summary>
+        /// tạo mới danh mục
+        /// </summary>
+        /// <param name="nameCategory"></param>
+        /// <param name="nameUser"></param>
         public void createNewCategory(string nameCategory, string nameUser)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
@@ -180,7 +216,10 @@ namespace BookStoreInfrastructure.Repository
 
             var res = sqlConnector.Query(querySQL);
         }
-
+        /// <summary>
+        /// xóa danh mục
+        /// </summary>
+        /// <param name="idCategory"></param>
         public void deleteCategory(int idCategory)
         {
             var sqlConnector = new MySqlConnection(base.connectString);

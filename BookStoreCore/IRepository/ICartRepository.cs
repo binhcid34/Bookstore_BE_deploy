@@ -9,6 +9,11 @@ namespace BookStoreCore.IRepository
 {
     public interface ICartRepository : IBaseRepository<Cart>
     {
+        /// <summary>
+        /// Thêm vào giỏ hàng
+        /// </summary>
+        /// <param name="orderDeatil"></param>
+        /// <returns></returns>
         public IEnumerable<Cart> AddToCart(string orderDeatil);
     }
 }

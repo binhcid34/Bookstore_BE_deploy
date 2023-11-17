@@ -63,7 +63,9 @@ namespace BookStoreInfrastructure.Repository
         {
             var sqlConnector = new MySqlConnection(base.connectString);
 
-            var sqlQuery = $"DELETE FROM User WHERE IdUser = '{IdUser}'";
+            // Xóa người dùng ở bảng user và account
+            var sqlQuery = $"DELETE FROM User WHERE IdUser = '{IdUser}';" +
+                $"DELETE FROM Account WHERE IdUser = '{IdUser}'";
             var res = sqlConnector.Query<User>(sqlQuery).FirstOrDefault();
         }
 

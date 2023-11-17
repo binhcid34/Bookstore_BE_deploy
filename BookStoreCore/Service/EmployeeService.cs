@@ -28,20 +28,26 @@ namespace BookStoreInfrastructure.Service
             _IEmployeeRepository = iEmployeeRepository;
             _IDepartmentRepository = iDepartmentRepository;
         }
-
+        /// <summary>
+        /// Lọc và phân trang
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public dynamic filter(string filter, int pageNumber, int pageSize)
         {
             // validate
             return _IEmployeeRepository.filter(filter,pageNumber, pageSize); 
         }
 
+        /// <summary>
+        /// thêm mới
+        /// </summary>
+        /// <param name="newEmployee"></param>
         public override void Insert(Employee newEmployee)
         {
             // validate employee
-
-
-
-
             // insert
             _IEmployeeRepository.Insert(newEmployee);
             

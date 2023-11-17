@@ -68,6 +68,11 @@ namespace BookStoreAPI.Controllers
             {
                 res.Success = true;
             }
+            else
+            {
+                res.Success = false;
+                
+            }
             return Ok(res);
         }
 

@@ -16,6 +16,11 @@ namespace BookStoreInfrastructure.Repository
     {
         public CartRepository() : base() { }
 
+        /// <summary>
+        /// Thêm vào giỏ hàng
+        /// </summary>
+        /// <param name="orderDeatil"></param>
+        /// <returns></returns>
         public IEnumerable<Cart> AddToCart(string orderDeatil)
         {
             //orderDeatil : "[{idProduct,nameProduct, idCategory, quantity, price ,paymentItem},....]"

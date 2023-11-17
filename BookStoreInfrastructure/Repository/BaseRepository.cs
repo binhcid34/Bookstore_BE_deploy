@@ -16,6 +16,11 @@ namespace BookStoreInfrastructure.Repository
         public string connectString = "Server=localhost; User ID=root; Password=binh1008; Database=book_store";
 
         //public string connectString = "Server=us-cdbr-east-06.cleardb.net;User=bc388b14261edc;Password=3435ccbb;Database=heroku_8237f81fa52e4e9";
+
+        /// <summary>
+        /// Đếm số lượng bản ghi trong bản
+        /// </summary>
+        /// <returns></returns>
         public dynamic Count()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -24,11 +29,20 @@ namespace BookStoreInfrastructure.Repository
             return count;
         }
 
+        /// <summary>
+        /// Xóa bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void Delete(T entity)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Lấy tât cả bản ghi tỏng bảng
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<T> GetAll()
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -36,12 +50,22 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<T>(sqlQuery);
             return res;
         }
-
+        /// <summary>
+        /// Lấy tất cả bản ghi theo danh mục
+        /// </summary>
+        /// <param name="idCategory"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public IEnumerable<T> GetByCategoryId(int idCategory)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Chi tiết bản ghi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IEnumerable<T> GetById(string id)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -51,6 +75,10 @@ namespace BookStoreInfrastructure.Repository
             return res;
         }
 
+        /// <summary>
+        /// Thêm mới
+        /// </summary>
+        /// <param name="arrParam"></param>
         public void Insert(DynamicParameters arrParam)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -58,7 +86,10 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<T>(sqlQuery, arrParam, commandType: System.Data.CommandType.StoredProcedure);
             //return res;
         }
-
+        /// <summary>
+        /// Thêm mới
+        /// </summary>
+        /// <param name="arrParam"></param>
         public void Insert(T entity)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -72,6 +103,14 @@ namespace BookStoreInfrastructure.Repository
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Lọc và phân trang theo danh mục
+        /// </summary>
+        /// <param name="IdCategory"></param>
+        /// <param name="NameProduct"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public object FilterProduct(int IdCategory, string NameProduct, int pageIndex, int pageSize)
         {
             var sqlConnector = new MySqlConnection(connectString);
@@ -104,33 +143,6 @@ namespace BookStoreInfrastructure.Repository
         public IEnumerable<T> SearchProduct(string search)
         {
             throw new NotImplementedException();
-        }
-
-        public object FilterEmployee( string filter, int pageIndex, int pageSize)
-        {
-            var sqlConnector = new MySqlConnection(connectString);
-            var parameters = new DynamicParameters();
-            parameters.Add("v_filter", filter);
-            parameters.Add("v_pageIndex", pageIndex);
-            parameters.Add("v_pageSize", pageSize);
-            parameters.Add("v_TotalRecord", direction: System.Data.ParameterDirection.Output);
-            parameters.Add("v_RecordStart", direction: System.Data.ParameterDirection.Output);
-            parameters.Add("v_RecordEnd", direction: System.Data.ParameterDirection.Output);
-
-            var queryProc = $"Proc_Filter_Employee";
-            var res = sqlConnector.Query<Employee>(queryProc, param: parameters, commandType: System.Data.CommandType.StoredProcedure);
-
-            int totalRecord = parameters.Get<int>("@v_TotalRecord");
-            int recordStart = parameters.Get<int>("@v_RecordStart");
-            int recordEnd = parameters.Get<int>("@v_RecordEnd");
-
-            return new
-            {
-                TotalRecord = totalRecord,
-                RecordStart = recordStart,
-                RecordEnd = recordEnd,
-                Data = res
-            };
         }
     }
 }
