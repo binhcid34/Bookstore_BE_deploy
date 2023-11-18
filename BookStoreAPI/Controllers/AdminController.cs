@@ -45,13 +45,13 @@ namespace BookStoreAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseModel getAllAccount()
+        public ResponseModel getAllAccount(bool isAdmin = true)
         {
             var response = new ResponseModel();
 
             try
             {
-                response.Data = _IUserRepository.GetAll();
+                response.Data = _IUserRepository.GetAll(isAdmin);
             }
             catch(Exception ex) {
                 response.Message = ex.Message;
@@ -85,12 +85,12 @@ namespace BookStoreAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("search/{search}")]
-        public ResponseModel searchByEmail(string search )
+        public ResponseModel searchByEmail(string search, bool isAdmin = true )
         {
             var response = new ResponseModel();
             try
             {
-                response.Data  = _IUserRepository.searchByEmail(search);
+                response.Data  = _IUserRepository.searchByEmail(search, isAdmin);
                 response.Success = true;
                 response.Status =   200;
 
@@ -404,13 +404,13 @@ namespace BookStoreAPI.Controllers
         /// <param name="idCategory"></param>
         /// <returns></returns>
         [HttpDelete("deleteCategory/{idCategory}")]
-        public ResponseModel createNewCategory(int idCategory)
+        public  ResponseModel createNewCategory(int idCategory)
         {
             var response = new ResponseModel();
             try
             {
 
-                _IProductRepository.deleteCategory(idCategory);
+                 _IProductRepository.deleteCategory(idCategory);
 
                 response.Status = 200;
                 response.Success = true;

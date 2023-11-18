@@ -53,7 +53,7 @@ namespace BookStoreCore.IRepository
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-        public IEnumerable<User> searchByEmail(string search);
+        public IEnumerable<User> searchByEmail(string search, bool isAdmin);
 
         /// <summary>
         /// Thay đổi password 
@@ -68,5 +68,13 @@ namespace BookStoreCore.IRepository
         /// <param name="ssid"></param>
         /// <returns></returns>
         public User getInfoFromSSID(string ssid);
+
+
+        /// <summary>
+        /// Lấy người dùng theo quyền admin hay không
+        /// </summary>
+        /// <param name="isAdmin"></param>
+        /// <returns></returns>
+        IEnumerable<User> GetAll(bool isAdmin);
     }
 }

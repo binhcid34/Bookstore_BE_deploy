@@ -43,7 +43,7 @@ namespace BookStoreInfrastructure.Repository
         /// Lấy tât cả bản ghi tỏng bảng
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             var sqlConnector = new MySqlConnection(connectString);
             var sqlQuery = "Select * from " + typeof(T).Name + "";

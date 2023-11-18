@@ -77,11 +77,11 @@ namespace BookStoreInfrastructure.Repository
             var res = sqlConnector.Query<User>(sqlQuery).FirstOrDefault();
         }
 
-        public IEnumerable<User> searchByEmail(string search)
+        public IEnumerable<User> searchByEmail(string search, bool isAdmin)
         {
             var sqlConnector = new MySqlConnection(base.connectString);
 
-            var sqlQuery = $"Select * from User where Email like '%{search}%'";
+            var sqlQuery = $"Select * from view_user where Email like '%{search}%' and isAdmin = {isAdmin}";
             var res = sqlConnector.Query<User>(sqlQuery).ToList();
             return res;
         }
@@ -100,6 +100,14 @@ namespace BookStoreInfrastructure.Repository
 
             var sqlQuery = $"Select * from User Where IdUser = '{ssid}'";
             var res = sqlConnector.Query<User>(sqlQuery).FirstOrDefault();
+            return res;
+        }
+
+       public  IEnumerable<User> GetAll(bool isAdmin)
+        {
+            var sqlConnector = new MySqlConnection(connectString);
+            var sqlQuery = $"Select * from view_user where isAdmin = {isAdmin} ";
+            var res = sqlConnector.Query<User>(sqlQuery);
             return res;
         }
     }
