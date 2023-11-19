@@ -198,7 +198,7 @@ namespace BookStoreInfrastructure.Repository
         {
             var sqlConnector = new MySqlConnection(base.connectString);
 
-            var querySQL = $"Select * from catagory";
+            var querySQL = $"Select * from view_category";
 
             var res = sqlConnector.Query<Category>(querySQL).ToList();
             return res;
@@ -220,13 +220,55 @@ namespace BookStoreInfrastructure.Repository
         /// xóa danh mục
         /// </summary>
         /// <param name="idCategory"></param>
-        public void deleteCategory(int idCategory)
+        public string deleteCategory(int idCategory)
         {
+            var message = String.Empty;
             var sqlConnector = new MySqlConnection(base.connectString);
+
+            // Kiểm tra xem có sản phẩm nào có danh mục nào không
+            var queryExsit = $"Select * from product where idCategory = {idCategory}";
+
+            var resDataExsit = sqlConnector.Query<Product>(queryExsit).ToList();
+
+            if (resDataExsit != null && resDataExsit.Count > 0)
+            {
+                message = "Đã tồn tại sản phẩm là danh mục này";
+                return message;
+            }
 
             var querySQL = $"Delete from catagory where idCategory = {idCategory} Limit 1 ;";
 
             var res = sqlConnector.Query(querySQL);
+
+
+            sqlConnector.Close();
+            return message;
+        }
+
+        public IEnumerable<Product> getProductStorage(string search, int status)
+        {
+            var sqlConnector = new MySqlConnection(base.connectString);
+            var querySQL = "Select TitleProduct, IdCategory, NameProduct, Author, QuantitySock, QuantitySold, NameCategory FROM view_product ";
+
+            /// với TH lấy kho hàng tồn với status == 1
+            if (status == 1)
+            {
+                querySQL += $" where QuantitySock > 0";
+            }
+            else
+            {
+                querySQL += $" where QuantitySock <= 0";
+
+            }
+            
+            // thêm điều kiện tìm kiếm
+            if (!string.IsNullOrEmpty(search))
+            {
+                querySQL += $" and (NameProduct LIKE '%{search}%' OR TitleProduct LIKE '%{search}%' )";
+            }
+
+            var res = sqlConnector.Query<Product>(querySQL).ToList();
+            return res;
         }
     }
 }

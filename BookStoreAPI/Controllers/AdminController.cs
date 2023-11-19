@@ -404,16 +404,26 @@ namespace BookStoreAPI.Controllers
         /// <param name="idCategory"></param>
         /// <returns></returns>
         [HttpDelete("deleteCategory/{idCategory}")]
-        public  ResponseModel createNewCategory(int idCategory)
+        public ResponseModel DeleteCategory(int idCategory)
         {
             var response = new ResponseModel();
             try
             {
+               string message =  _IProductRepository.deleteCategory(idCategory);
 
-                 _IProductRepository.deleteCategory(idCategory);
+                if (!string.IsNullOrEmpty(message))
+                {
+                    response.Success = false;
+                    response.Status = 300;
+                    response.Message = message;
+                } 
+                else
+                {
+                    response.Status = 200;
+                    response.Success = true;
+                    response.Message = "Đã xóa thành công";
+                }
 
-                response.Status = 200;
-                response.Success = true;
             }
             catch (Exception ex)
             {

@@ -58,7 +58,10 @@ namespace BookStoreInfrastructure.Repository
         /// <exception cref="NotImplementedException"></exception>
         public IEnumerable<T> GetByCategoryId(int idCategory)
         {
-            throw new NotImplementedException();
+            var sqlConnector = new MySqlConnection(connectString);
+            var sqlQuery = $"Select * from {typeof(T).Name} where IdCategory = {idCategory} ";
+            var res = sqlConnector.Query<T>(sqlQuery);
+            return res;
         }
 
         /// <summary>

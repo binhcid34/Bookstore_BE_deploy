@@ -26,7 +26,10 @@ namespace BookStoreCore.IRepository
 
         public void createNewCategory(string nameCategory, string nameUser);
 
-        public void deleteCategory(int idCategory);
+        public string deleteCategory(int idCategory);
+
+        public IEnumerable<Product> getProductStorage(string search, int status);
+
 
     }
 }

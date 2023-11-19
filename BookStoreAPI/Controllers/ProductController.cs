@@ -203,5 +203,26 @@ namespace BookStoreAPI.Controllers
             return response;
         }
 
+        [HttpPost("storage")]
+        public ResponseModel getProductByStatus([FromBody]StorageRequestModel storageRequest)
+        {
+            ResponseModel response = new ResponseModel();
+
+            try
+            {
+                response.Data = _IProductRepository.getProductStorage(storageRequest.search, storageRequest.status);
+                response.Status = 200;
+                response.Success = true;
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+                response.Status = 400;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
     }
 }

@@ -47,7 +47,7 @@ namespace BookStoreInfrastructure.Service
                     _IUserRepository.InsertUser(parameters);
 
                     response.Success = true;
-                    response.Message = "Đã thêm thành công";
+                    response.Message = "Đã thêm thành công với mật khẩu mặc định là 12345678@Abc";
                     response.Status = 200;
                     return;
                 }

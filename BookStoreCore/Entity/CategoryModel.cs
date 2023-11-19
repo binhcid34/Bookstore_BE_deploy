@@ -18,6 +18,10 @@ namespace BookStoreCore.Entity
         public DateTime? CreatedDate { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
+        /// <summary>
+        /// Tổng số sách
+        /// </summary>
+        public int? TotalProduct { get; set; }
 
 
     }
