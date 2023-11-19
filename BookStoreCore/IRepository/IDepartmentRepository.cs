@@ -1,4 +1,4 @@
-﻿using BookStoreCore.Entity;
+﻿using BookStoreCore.EntityTest;
 using System;
 using System.Collections.Generic;
 using System.Linq;

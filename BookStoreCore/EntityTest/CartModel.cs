@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStoreCore.Entity
+namespace BookStoreCore.EntityTest
 {
     public class Cart
     {

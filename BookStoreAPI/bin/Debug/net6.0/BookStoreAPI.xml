@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BookStoreAPI</name>
+    </assembly>
+    <members>
+        <member name="M:BookStoreAPI.Controllers.AccountController.Get(System.String,System.String)">
+            <summary>
+            Đăng nhập và tạo ra token để authencation và authozation
+            </summary>
+            <param name="email"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.UpdateUser(BookStoreCore.Entity.User)">
+            <summary>
+            Chỉnh sửa thông tin người dùng
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.GetInfoUser(System.String)">
+            <summary>
+             Lấy thông tin của account theo email
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.GetUser(System.String,System.String)">
+            <summary>
+            Check xem có người dùng nào có email và password này không trả về người dùng nếu có tồn tại
+            </summary>
+            <param name="email"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.RecoverPassword(System.String)">
+            <summary>
+            Quên mật khẩu
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.checkPermission">
+            <summary>
+            Kiểm tra quyền của người dùng xem có được truy cập vào trang admin không?
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AccountController.register(BookStoreCore.Entity.User)">
+            <summary>
+            Đăng ký người dùng
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="F:BookStoreAPI.Controllers.AdminController._IUserRepository">
+            <summary>
+            property
+            </summary>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.#ctor(BookStoreCore.IRepository.IUserRepository,BookStoreCore.IService.IUserService,BookStoreCore.IRepository.IOrderRepository,BookStoreCore.IRepository.IProductRepository)">
+            <summary>
+            Constructors
+            </summary>
+            <param name="IUserRepository"></param>
+            <param name="userService"></param>
+            <param name="iOrderRepository"></param>
+            <param name="iProductRepository"></param>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.getAllAccount(System.Boolean)">
+            <summary>
+             Lấy toàn bộ thông tin account
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.insertAccount(BookStoreCore.Entity.User)">
+            <summary>
+            Thêm tài khoản
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.searchByEmail(System.String,System.Boolean)">
+            <summary>
+            Search
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.deleteUser(System.String)">
+            <summary>
+            Xóa nhân viên theo email
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.DeleteAll">
+            <summary>
+            Xóa toàn bộ nhưng đang fix cứng là xóa 10 bản ghi , Không nên test
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.updateOrder(System.String,System.Int32)">
+            <summary>
+            Cập nhật đơn hàng
+            </summary>
+            <param name="idorder"></param>
+            <param name="paymentSatus"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.filterOrder(System.String)">
+            <summary>
+            tìm kiếm đơn hàng
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.dashboard">
+            <summary>
+            Lấy thông tin trang dashboard
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.getALlPromotion">
+            <summary>
+            Lấy tất cả mgg
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.createNewPromotion(System.Int32)">
+            <summary>
+            Sinh thêm mgg mới 
+            </summary>
+            <param name="promotionPercent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.deletePrmotion(System.String)">
+            <summary>
+            Xóa mgg theo id
+            </summary>
+            <param name="ID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.delete(System.String)">
+            <summary>
+            Xóa sản phẩm theo id
+            </summary>
+            <param name="productID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.GetRandomPassword(System.Int32)">
+            <summary>
+            Sinh ra password mới
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.createNewCategory(System.String)">
+            <summary>
+            Tạo ra thêm danh mục
+            </summary>
+            <param name="nameCategory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.AdminController.DeleteCategory(System.Int32)">
+            <summary>
+            Xóa danh mục theo id
+            </summary>
+            <param name="idCategory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.GetItems">
+            <summary>
+            Lấy giỏ hàng theo người dùng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.AddItem(System.Collections.Generic.List{BookStoreCore.Entity.Product})">
+            <summary>
+            Thêm vào giỏ hàng
+            </summary>
+            <param name="orderItems"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.Checkout(BookStoreCore.Entity.SessionOrder)">
+            <summary>
+            Thanh toán
+            </summary>
+            <param name="sessionOrder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.GetHistory">
+            <summary>
+            Lấy lịch sử mua hàng theo người dùng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.ApplyPromotion(System.String)">
+            <summary>
+            Áp mã giảm giá vào giỏ hàng
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.CartController.updateQuantity(System.String,System.Int32)">
+            <summary>
+            cập nhật đơn hàng với TH xác nhân thanh toán và hủy đơn hàng
+            </summary>
+            <param name="idOrder"></param>
+            <param name="type">1 là mua; 2 là hủy đơn hàng</param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.EmailController.SendMailAsync(System.String,System.String)">
+            <summary>
+            Gửi email với nội dung
+            </summary>
+            <param name="SendMailTo"></param>
+            <param name="SendMailBody"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.getAllProduct">
+            <summary>
+            Lấy tất cả sản phẩm
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.getCountProduct">
+            <summary>
+            Lấy số lượng tất cả sản phẩm
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.GetProductDetailById(System.String)">
+            <summary>
+            Lấy chi tiết của sản phẩm theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.FilterByCategory(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Phân trang + lọc dữ liệu sản phẩm theo trường name và title
+            </summary>
+            <param name="filter"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.Filter(System.Int32,System.Int32,System.String)">
+            <summary>
+            Phân trang + lọc dữ liệu sản phẩm theo trường name và title
+            </summary>
+            <param name="filter"></param>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.getByIdCategory(System.Int32)">
+            <summary>
+            Lấy sản phẩm theo danh mục
+            </summary>
+            <param name="IdCategory"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.insertNewProduct(BookStoreCore.Entity.Product)">
+            <summary>
+             Thêm sản phẩm
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.updateProduct(BookStoreCore.Entity.Product)">
+            <summary>
+             Cập nhật thông tin sản phẩm
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BookStoreAPI.Controllers.ProductController.allCategory">
+            <summary>
+             Lấy tất cả danh mục sản phẩm
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

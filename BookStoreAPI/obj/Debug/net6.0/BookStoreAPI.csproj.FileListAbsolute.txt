@@ -55,3 +55,6 @@ D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\refint\
 D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\BookStoreAPI.pdb
 D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\BookStoreAPI.genruntimeconfig.cache
 D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\ref\BookStoreAPI.dll
+D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\bin\Debug\net6.0\BookStoreAPI.xml
+D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\BookStoreAPI.MvcApplicationPartsAssemblyInfo.cs
+D:\phần mềm bán sách\BE\BookStoreAPI\BookStoreAPI\obj\Debug\net6.0\BookStoreAPI.xml

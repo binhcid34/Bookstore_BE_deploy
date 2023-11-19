@@ -1,4 +1,5 @@
 ﻿using BookStoreCore.Entity;
+using BookStoreCore.EntityTest;
 using BookStoreCore.IRepository;
 using Dapper;
 using MySqlConnector;
